@@ -43,7 +43,7 @@ html {
 }
 
 body {
-  /* background: radial-gradient(circle at 50% 170%, #bae6fdbb, #f0f9ff00 80%); */
+  background: radial-gradient(circle at 50% 160%, #bae6fd, #f0f9ff00 80%);
 
   &::before,
   &::after {
