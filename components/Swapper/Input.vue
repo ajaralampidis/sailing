@@ -172,8 +172,8 @@ onUnmounted(() => {
           class="line-clamp-1 w-[130px] break-all text-xs/normal font-medium text-zinc-500"
         >
           {{
-            formState[tokenKey]
-              ? formState[tokenKey]?.name + ' network'
+            formState[chainKey]
+              ? formState[chainKey]?.name + ' network'
               : 'Select network'
           }}
         </p>

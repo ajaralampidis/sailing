@@ -1,24 +1,14 @@
 <script setup lang="ts">
-const { connectWallet, state } = useOnboard()
+const { connectWallet } = useOnboard()
 
 const connect = async () => {
-  console.log('CONNECT')
   await connectWallet()
 }
+const wallets = useWalletSubscription()
+const address = computed(() => {
+  const adr = wallets.value[0]?.accounts[0]?.address
 
-const address = ref('')
-
-const { unsubscribe } = state.select().subscribe((s) => {
-  const addr = s.wallets[0]?.accounts[0].address
-  if (addr) {
-    address.value = addr.slice(0, 3) + '...' + addr.slice(-5)
-    return
-  }
-  return ''
-})
-
-onUnmounted(() => {
-  unsubscribe()
+  return adr ? adr.slice(0, 3) + '...' + adr.slice(-5) : adr
 })
 </script>
 
@@ -26,11 +16,11 @@ onUnmounted(() => {
   <ClientOnly>
     <button
       class="group m-auto flex w-[132px] cursor-pointer rounded-md bg-sky-600 py-[0.4rem] transition-colors duration-500 hover:bg-sky-700 sm:w-[165px] md:py-[0.5rem] md:[filter:_drop-shadow(0_1px_4px_rgb(0_176_230_/_0.5))_drop-shadow(0_1px_2px_rgb(0_176_230_/_0.3))]"
-      :class="!!address && 'pointer-events-none'"
+      :disabled="!!address"
       @click="connect"
     >
       <p class="m-auto text-base font-medium text-white">
-        {{ address ? address : 'Connect App' }}
+        {{ address ? address : 'Connect Wallet' }}
       </p>
     </button>
     <template #placeholder>
@@ -39,7 +29,7 @@ onUnmounted(() => {
         disabled
         class="group m-auto flex w-[132px] rounded-md bg-sky-600 py-[0.4rem] opacity-75 transition-colors duration-500 hover:bg-sky-700 sm:w-[165px] md:py-[0.5rem]"
       >
-        <p class="m-auto text-base font-medium text-white">Connect App</p>
+        <p class="m-auto text-base font-medium text-white">Connect Wallet</p>
       </button>
     </template>
   </ClientOnly>

@@ -8,4 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@vueuse/nuxt',
   ],
+  build: {
+    transpile: ['rxjs'],
+  },
 })

@@ -5,6 +5,8 @@ import useFormState, { swapPurchase, validateForm } from './formState'
 // const view = ref('main')
 const formState = useFormState()
 const { state } = useOnboard()
+const wallets = useWalletSubscription()
+const address = computed(() => wallets.value[0]?.accounts[0]?.address)
 
 const swap = () => {
   swapPurchase(formState)
@@ -63,12 +65,18 @@ watch(
       >
         {{ formState.errors?.global?._errors[0] }}
       </p>
-      <button
-        type="submit"
-        class="glow w-full rounded-md bg-sky-600 py-4 text-2xl font-bold text-white transition-all hover:brightness-110"
-      >
-        Swap
-      </button>
+
+      <ClientOnly>
+        <button
+          v-if="address"
+          type="submit"
+          class="glow w-full rounded-md bg-sky-600 py-4 text-2xl font-bold text-white transition-all hover:brightness-110"
+        >
+          Swap
+        </button>
+        <SwapperConnectBtn v-else />
+      </ClientOnly>
+
       <AccordionRoot
         v-model="formState.activeView"
         type="single"
